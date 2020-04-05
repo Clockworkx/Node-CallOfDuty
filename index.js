@@ -179,17 +179,13 @@ module.exports = function(config = {}) {
 
     module.MWwz = function (gamertag, platform = config.platform) {
         return new Promise((resolve, reject) => {
-            brDetails = [];
-            brDetails.br = {};
-            brDetails.br_dmz = {};
-            brDetails.br_all = {};
-            brDetails.b
+            brDetails = new Object()
             this.MWmp(gamertag, platform).then((data) => {
-                if (typeof data !== "undefined") { data = "data"; brDetails.data = data; }
-                else if(typeof data.lifetime !== "undefined") {
-                    if(typeof data.lifetime.mode.br !== "undefined") { data.lifetime.mode.br.properties.title = "br"; brDetails.br = data.lifetime.mode.br.properties; }
-                    if(typeof data.lifetime.mode.br_dmz !== "undefined") { data.lifetime.mode.br_dmz.properties.title = "br_dmz"; brDetails.br_dmz = data.lifetime.mode.br_dmz.properties; }
-                    if(typeof data.lifetime.mode.br_all !== "undefined") { data.lifetime.mode.br_all.properties.title = "br_all"; brDetails.br_all = data.lifetime.mode.br_all.properties; }
+                if(typeof data !== "undefined") {
+                    brDetails.Data = data
+                    if (typeof data.lifetime.mode.br !== "undefined") brDetails.br = data.lifetime.mode.br.properties
+                    if (typeof data.lifetime.mode.br_dmz !== "undefined") brDetails.br_dmz = data.lifetime.mode.br_dmz.properties
+                    if (typeof data.lifetime.mode.br_all !== "undefined") brDetails.br_all = data.lifetime.mode.br_all.properties
                 }
                 resolve(brDetails);
             }).catch(e => reject(e));
